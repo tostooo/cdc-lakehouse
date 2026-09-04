@@ -1,0 +1,363 @@
+{
+  "datasets": [
+    {
+      "name": "0b5a37ea",
+      "displayName": "gold_daily_order_volume",
+      "config": {
+        "version": "1.1",
+        "source": "cdc.cdc_pipeline.gold_daily_order_volume",
+        "dimensions": [
+          {
+            "expr": "source.*"
+          }
+        ],
+        "measures": [
+          {
+            "name": "count",
+            "expr": "COUNT(*)",
+            "comment": "Represents the total number of rows in the dataset. Use this measure to count all",
+            "displayName": "Count"
+          }
+        ]
+      }
+    },
+    {
+      "name": "963b12cc",
+      "displayName": "gold_product_performance",
+      "config": {
+        "version": "1.1",
+        "source": "cdc.cdc_pipeline.gold_product_performance",
+        "dimensions": [
+          {
+            "expr": "source.*"
+          }
+        ],
+        "measures": [
+          {
+            "name": "count",
+            "expr": "COUNT(*)",
+            "comment": "Represents the total number of rows in the dataset. Use this measure to count all",
+            "displayName": "Count"
+          }
+        ]
+      }
+    },
+    {
+      "name": "46946ea4",
+      "displayName": "gold_inventory_status",
+      "config": {
+        "version": "1.1",
+        "source": "cdc.cdc_pipeline.gold_inventory_status",
+        "dimensions": [
+          {
+            "expr": "source.*"
+          }
+        ],
+        "measures": [
+          {
+            "name": "count",
+            "expr": "COUNT(*)",
+            "comment": "Represents the total number of rows in the dataset. Use this measure to count all",
+            "displayName": "Count"
+          }
+        ]
+      }
+    },
+    {
+      "name": "027f0310",
+      "displayName": "gold_customer_ltv",
+      "config": {
+        "version": "1.1",
+        "source": "cdc.cdc_pipeline.gold_customer_ltv",
+        "dimensions": [
+          {
+            "expr": "source.*"
+          }
+        ],
+        "measures": [
+          {
+            "name": "count",
+            "expr": "COUNT(*)",
+            "comment": "Represents the total number of rows in the dataset. Use this measure to count all",
+            "displayName": "Count"
+          }
+        ]
+      }
+    }
+  ],
+  "pages": [
+    {
+      "name": "67644e11",
+      "displayName": "Dashboard",
+      "layout": [
+        {
+          "widget": {
+            "name": "7e7f22b2",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "963b12cc",
+                  "fields": [
+                    {
+                      "name": "name",
+                      "expression": "`name`"
+                    },
+                    {
+                      "name": "sum(order_count)",
+                      "expression": "SUM(`order_count`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "name",
+                  "axis": {
+                    "labelAngle": 90
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(order_count)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "total-order",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "027f0310",
+                  "fields": [
+                    {
+                      "name": "sum(total_orders)",
+                      "expression": "SUM(`total_orders`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"text-align:center;display:block;\">Total Order</span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(total_orders)"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 5,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "72994a46",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "0b5a37ea",
+                  "fields": [
+                    {
+                      "name": "order_date",
+                      "expression": "`order_date`"
+                    },
+                    {
+                      "name": "units_sold",
+                      "expression": "`units_sold`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "order_date",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "units_sold",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "total-customer",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "027f0310",
+                  "fields": [
+                    {
+                      "name": "count(customer_id)",
+                      "expression": "COUNT(`customer_id`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"text-align:center;display:block;\">Total Customer</span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "count(customer_id)"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 5,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "top-customer",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "027f0310",
+                  "fields": [
+                    {
+                      "name": "customer_id",
+                      "expression": "`customer_id`"
+                    },
+                    {
+                      "name": "total_orders",
+                      "expression": "`total_orders`"
+                    },
+                    {
+                      "name": "total_units_purchased",
+                      "expression": "`total_units_purchased`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"text-align:center;display:block;\">Top Customer</span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "customer_id"
+                  },
+                  {
+                    "fieldName": "total_orders"
+                  },
+                  {
+                    "fieldName": "total_units_purchased"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 5,
+            "width": 8,
+            "height": 3
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
